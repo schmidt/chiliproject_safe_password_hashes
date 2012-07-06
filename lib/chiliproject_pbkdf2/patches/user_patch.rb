@@ -16,8 +16,11 @@ module ChiliprojectPbkdf2::Patches::UserPatch
 
   module InstanceMethods
     def check_password_with_pbkdf2?(plain_text_password)
-      logger.info 'checking with peanut butter'
-      check_password_without_pbkdf2?(plain_text_password)
+      if auth_source_id.present?
+        auth_source.authenticate(self.login, plain_text_password)
+      else
+        User.hash_password("#{salt}#{User.hash_password plain_text_password}") == hashed_password
+      end
     end
 
     def salt_password_with_pbkdf2(plain_text_password)
