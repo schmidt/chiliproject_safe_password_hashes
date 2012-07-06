@@ -1,7 +1,7 @@
 require_dependency 'principal'
 require_dependency 'user'
 
-module Pbkdf2Chiliproject::Patches::UserPatch
+module ChiliprojectPbkdf2::Patches::UserPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -32,4 +32,4 @@ module Pbkdf2Chiliproject::Patches::UserPatch
   end
 end
 
-User.send(:include, Pbkdf2Chiliproject::Patches::UserPatch)
+User.send(:include, ChiliprojectPbkdf2::Patches::UserPatch)
