@@ -19,7 +19,10 @@ module ChiliprojectPbkdf2::Patches::UserPatch
       if auth_source_id.present?
         auth_source.authenticate(self.login, plain_text_password)
       else
-        User.hash_password("#{salt}#{User.hash_password plain_text_password}") == hashed_password
+        result = User.hash_password("#{salt}#{User.hash_password plain_text_password}") == hashed_password
+        # protection against timing attacks
+        sleep(rand / 10) if result == false
+        result
       end
     end
 
