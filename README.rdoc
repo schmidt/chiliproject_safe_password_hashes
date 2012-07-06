@@ -1,0 +1,9 @@
+= PBKDF2 for ChiliProject
+
+This plugin will further improve the security of your users passwords. While
+stock ChiliProject currently uses salted SHA1 hashes to store passwords, this
+plugin will switch the storage to PBKDF2 based hashes. This will take
+significantly longer to compute and is therefor more robust against brute force
+attacks.
+
+This is work in progress.
