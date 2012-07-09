@@ -12,6 +12,13 @@ Redmine::Plugin.register :chiliproject_pbkdf2 do
   description "A plugin to improve the security of your user's passwords"
   version '0.0.1'
 
-  # Those settings are not meant to be changed after this plugin was installed
-  settings :hash_function => 'sha256', :iterations => '5000'
+  settings :default => HashWithIndifferentAccess.new(
+    'hash_function' => 'pbkdf2_sha256', # Default in PBKDF2-ruby
+    'iterations'    => '5000', # Recommendation in PBKDF2-ruby's README
+
+    # TODO: Check if we can support changing this value. Currently it
+    # is just a setting to avoid magic numbers. Might be, that that's
+    # not the best solution.
+    'key_length'    => '40'    # Length of DB field in ChiliProject 3.x
+  )
 end
