@@ -1,1 +1,24 @@
-<h1>Hello, World</h1>
+<h1><%= I18n.t('safe_password_hashes.password_security') %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= I18n.t('safe_password_hashes.hash_algorithm') %></th>
+      <th><%= I18n.t('safe_password_hashes.of_registered_users') %></th>
+      <th><%= I18n.t('safe_password_hashes.of_active_users') %></th>
+      <th><%= I18n.t('safe_password_hashes.of_locked_users') %></th>
+      <th><%= I18n.t('safe_password_hashes.of_all_users') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stats.algorithms.each do |algo| %>
+      <tr>
+        <th><%= algo.name %></th>
+        <td><%= algo.registered_users %></td>
+        <td><%= algo.active_users %></td>
+        <td><%= algo.locked_users %></td>
+        <td><%= algo.all_users %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,3 +1,10 @@
 en:
   safe_password_hashes:
+    hash_algorithm: Hash algorithm
+
     password_security: Password Security
+
+    of_registered_users: of registered users
+    of_active_users:     of active users
+    of_locked_users:     of locked users
+    of_all_users:        of all users

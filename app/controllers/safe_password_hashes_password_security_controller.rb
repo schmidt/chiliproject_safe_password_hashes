@@ -4,5 +4,6 @@ class SafePasswordHashesPasswordSecurityController < ApplicationController
   layout 'admin'
 
   def show
+    @stats = SafePasswordHashes::Stats.new
   end
 end
