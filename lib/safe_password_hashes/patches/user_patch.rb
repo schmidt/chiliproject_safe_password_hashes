@@ -1,7 +1,7 @@
 require_dependency 'principal'
 require_dependency 'user'
 
-module ChiliprojectPbkdf2::Patches::UserPatch
+module SafePasswordHashes::Patches::UserPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -9,8 +9,8 @@ module ChiliprojectPbkdf2::Patches::UserPatch
       include InstanceMethods
       extend ClassMethods
 
-      alias_method_chain :check_password?, :pbkdf2
-      alias_method_chain :salt_password,   :pbkdf2
+      alias_method_chain :check_password?, :safe_password_hashes
+      alias_method_chain :salt_password,   :safe_password_hashes
     end
   end
 
@@ -18,7 +18,7 @@ module ChiliprojectPbkdf2::Patches::UserPatch
     # alias chained core method
     #
     # Used for authentication whenever somebody tries to log in
-    def check_password_with_pbkdf2?(plain_text_password)
+    def check_password_with_safe_password_hashes?(plain_text_password)
       if auth_source_id.present?
         auth_source.authenticate(self.login, plain_text_password)
       else
@@ -34,10 +34,10 @@ module ChiliprojectPbkdf2::Patches::UserPatch
     # alias chained core method
     #
     # Used to calculate hashed_password, whenever somebody changes his passwords
-    def salt_password_with_pbkdf2(plain_text_password)
+    def salt_password_with_safe_password_hashes(plain_text_password)
       self.salt = User.generate_salt
-      self.password_hash_function  = Setting.plugin_chiliproject_pbkdf2["hash_function"]
-      self.password_hash_work_load = Setting.plugin_chiliproject_pbkdf2["iterations"].to_i
+      self.password_hash_function  = Setting.plugin_safe_password_hashes["hash_function"]
+      self.password_hash_work_load = Setting.plugin_safe_password_hashes["iterations"].to_i
 
       self.hashed_password = hash_with_user_settings(plain_text_password)
     end
@@ -62,7 +62,7 @@ module ChiliprojectPbkdf2::Patches::UserPatch
 
     def hash_with_pbkdf2(plain_text_password)
       actual_hash_function = self.password_hash_function.sub(/^pbkdf2_/, '')
-      key_length = Setting.plugin_chiliproject_pbkdf2['key_length'].to_i
+      key_length = Setting.plugin_safe_password_hashes['key_length'].to_i
 
       # chained hashes until every user was migrated to proper PBKDF2
       if actual_hash_function =~ /^legacy_/
@@ -85,9 +85,9 @@ module ChiliprojectPbkdf2::Patches::UserPatch
   end
 
   module ClassMethods
-    def salt_unsalted_passwords_with_pbkdf2!
+    def salt_unsalted_passwords_with_safe_password_hashes!
     end
   end
 end
 
-User.send(:include, ChiliprojectPbkdf2::Patches::UserPatch)
+User.send(:include, SafePasswordHashes::Patches::UserPatch)

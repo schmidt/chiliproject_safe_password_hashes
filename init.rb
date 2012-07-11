@@ -3,10 +3,10 @@ require 'dispatcher'
 require 'pbkdf2'
 
 Dispatcher.to_prepare do
-  require_dependency 'chiliproject_pbkdf2/patches/user_patch'
+  require_dependency 'safe_password_hashes/patches/user_patch'
 end
 
-Redmine::Plugin.register :chiliproject_pbkdf2 do
+Redmine::Plugin.register :safe_password_hashes do
   name 'PBKDF2 for ChiliProject'
   author 'Gregor Schmidt'
   description "A plugin to improve the security of your user's passwords"

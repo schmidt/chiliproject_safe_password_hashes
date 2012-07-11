@@ -1,4 +1,4 @@
-= PBKDF2 for ChiliProject
+= Safe Password Hashes for ChiliProject
 
 This plugin will further improve the security of your users passwords. While
 stock ChiliProject currently uses salted SHA1 hashes to store passwords, this
