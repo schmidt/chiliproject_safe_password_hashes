@@ -23,4 +23,9 @@ Redmine::Plugin.register :safe_password_hashes do
     # Another option would be : User.columns_hash['hashed_password'].limit
     'key_length'    => '40'    # Length of DB field in ChiliProject 3.x
   )
+
+  menu :admin_menu, :safe_password_hashes_password_security,
+                    {:controller => "safe_password_hashes_password_security",
+                     :action     => "show"},
+                    :caption => :"safe_password_hashes.password_security"
 end
