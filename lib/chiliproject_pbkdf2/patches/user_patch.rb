@@ -62,6 +62,7 @@ module ChiliprojectPbkdf2::Patches::UserPatch
 
     def hash_with_pbkdf2(plain_text_password)
       actual_hash_function = self.password_hash_function.sub(/^pbkdf2_/, '')
+      key_length = Setting.plugin_chiliproject_pbkdf2['key_length'].to_i
 
       # chained hashes until every user was migrated to proper PBKDF2
       if actual_hash_function =~ /^legacy_/
@@ -71,14 +72,15 @@ module ChiliprojectPbkdf2::Patches::UserPatch
 
       PBKDF2.new(
         :hash_function => actual_hash_function,
+
         # TODO: Make sure, that these values are not 0 - which would happen, if
-        # somebody stored String values
+        # somebody stored arbitrary String values
         :iterations  => self.password_hash_work_load,
-        :key_length  => Setting.plugin_chiliproject_pbkdf2['key_length'].to_i,
+        :key_length  => key_length,
 
         :password    => plain_text_password,
         :salt        => self.salt
-      ).hex_string
+      ).hex_string[0...key_length]
     end
   end
 
