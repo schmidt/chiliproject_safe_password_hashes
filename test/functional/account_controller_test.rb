@@ -16,9 +16,9 @@ class AccountControllerTest < ActionController::TestCase
   context "with legacy password" do
     setup do
       Setting.plugin_safe_password_hashes = {
-        :hash_function => nil, # legacy
-        :iterations    => nil,
-        :key_length    => "40"
+        "hash_function" => nil, # legacy
+        "iterations"    => nil,
+        "key_length"    => "40"
       }
 
       @user = User.generate(:login => 'alfred', :password => 'bruce')
@@ -39,9 +39,9 @@ class AccountControllerTest < ActionController::TestCase
     context "after hash_function was changed" do
       setup do
         Setting.plugin_safe_password_hashes = {
-          :hash_function => "pbkdf2_sha256",
-          :iterations    => "500",
-          :key_length    => "40"
+          "hash_function" => "pbkdf2_sha256",
+          "iterations"    => "500",
+          "key_length"    => "40"
         }
       end
 
