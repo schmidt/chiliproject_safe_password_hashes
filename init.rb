@@ -7,9 +7,9 @@ Dispatcher.to_prepare do
 end
 
 Redmine::Plugin.register :safe_password_hashes do
-  name 'PBKDF2 for ChiliProject'
+  name 'Safe Password Hashes for ChiliProject'
   author 'Gregor Schmidt'
-  description "A plugin to improve the security of your user's passwords"
+  description "A plugin to improve the security of your users' passwords"
   version '0.0.1'
 
   settings :default => HashWithIndifferentAccess.new(
