@@ -47,11 +47,11 @@ module SafePasswordHashes::Patches::UserPatch
       when /^pbkdf2/
         hash_with_pbkdf2(plain_text_password)
 
-      when 'legacy'
+      when nil
         hash_with_legacy(plain_text_password)
 
       else
-        raise "Unknown password_hash_function: #{password_hash_function}"
+        raise "Unknown password_hash_function: #{password_hash_function.inspect}"
       end
     end
 

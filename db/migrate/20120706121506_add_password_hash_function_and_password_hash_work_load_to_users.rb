@@ -4,8 +4,6 @@ class AddPasswordHashFunctionAndPasswordHashWorkLoadToUsers < ActiveRecord::Migr
       t.column :password_hash_function,  :string
       t.column :password_hash_work_load, :int
     end
-
-    User.update_all({:password_hash_function => 'legacy'}, {})
   end
 
   def self.down
