@@ -65,12 +65,6 @@ module SafePasswordHashes::Patches::UserPatch
       actual_hash_function = self.password_hash_function.sub(/^pbkdf2_/, '')
       key_length = Setting.plugin_safe_password_hashes['key_length'].to_i
 
-      # chained hashes until every user was migrated to proper PBKDF2
-      if actual_hash_function =~ /^legacy_/
-        actual_hash_function = actual_hash_function.sub(/^legacy_/, '')
-        plain_text_password = self.hash_with_legacy(plain_text_password)
-      end
-
       PBKDF2.new(
         :hash_function => actual_hash_function,
 
